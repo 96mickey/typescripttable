@@ -1,23 +1,9 @@
 import { data } from "./data";
 import { validate } from "./validate";
+import { User } from "./user";
 
 let button: HTMLElement = document.getElementById("changeColor");
 let table: HTMLElement = document.getElementById("tablebody");
-
-interface Usermdl {
-  "First Name": string;
-  "Middle Name": string;
-  "Last Name": string;
-  Email: string;
-  "Phone Number": number;
-  Address: string;
-  Role?: string;
-}
-
-//use this for Object.entries
-interface ObjectInterface {
-  entries<T>(o: { [s: string]: T }): [string, T][];
-}
 
 interface UserHtmlElements {
   fname: HTMLInputElement;
@@ -28,37 +14,20 @@ interface UserHtmlElements {
   email: HTMLInputElement;
 }
 
-// export interface Listener<T> {
-//   (event: T): any;
-// }
-
-class User implements Usermdl {
-  "First Name": string;
-  "Middle Name": string;
-  "Last Name": string;
-  "Email": string;
-  "Phone Number": number;
-  "Address": string;
-  "Role": string;
-
-  constructor(
-    firstname: string,
-    middlename: string,
-    lastname: string,
-    email: string,
-    phonenumber: number,
-    address: string
-  ) {
-    this["First Name"] = firstname;
-    this["Middle Name"] = middlename;
-    this["Last Name"] = lastname;
-    this["Email"] = email;
-    this["Phone Number"] = phonenumber;
-    this["Address"] = address;
-  }
+interface UserItem {
+  firstname: string;
+  middlename: string;
+  lastname: string;
+  email: string;
+  phonenumber: number;
+  address: string;
 }
 
-var loadData = (): void => {
+type ListUser = [UserItem];
+
+interface UserItems extends Array<UserItem> {}
+
+let loadData = (): void => {
   //setting up the basic view
   let items: object[] = [...data];
 
@@ -91,15 +60,16 @@ var loadData = (): void => {
 
 button.onclick = loadData;
 
-var deleteRow = (e: any): void => {
+const deleteRow = (e: any): void => {
   let index: object = /\d+/.exec(e.path[0].id);
   document.getElementById(e.path[0].id).removeEventListener("click", deleteRow);
   let row: HTMLElement = document.getElementById(`row_${index[0]}`);
   row.parentNode.removeChild(row);
   data.splice(Number(index[0]), 1);
+  loadData();
 };
 
-var editRow = (e: any): void => {
+const editRow = (e: any): void => {
   let index: object = /\d+/.exec(e.path[0].id);
   let elements: object = callElements(index[0], "");
 
@@ -144,7 +114,7 @@ var editRow = (e: any): void => {
   cancelbtn.addEventListener("click", cancel);
 };
 
-var cancel = (e: any): void => {
+const cancel = (e: any): void => {
   let index: object = /\d+/.exec(e.path[0].id);
   let cancelVal: object = callElements(index[0], "input_");
 
@@ -176,7 +146,7 @@ var cancel = (e: any): void => {
   editbtn.addEventListener("click", editRow);
 };
 
-var save = (e: any): void => {
+const save = (e: any): void => {
   // if(validateform(index)) {
   //     alert("Check the values in the form.")
   // } else {
@@ -234,7 +204,7 @@ var save = (e: any): void => {
   // }
 };
 
-var makeLayout = (items: object[]): string[] => {
+const makeLayout = (items: object[]): string[] => {
   let itemsToDisplay: string[] = items.map((item: object, index: number) => {
     let user = new User(
       item["First Name"],
@@ -296,10 +266,7 @@ var makeLayout = (items: object[]): string[] => {
 };
 
 //general way for selecting elements to iterate over
-export var callElements = (
-  index: number | string,
-  classprefix: string
-): object => {
+const callElements = (index: number | string, classprefix: string): object => {
   let obj = {
     fname: document.getElementById(`${classprefix}fname_${index}`),
     lname: document.getElementById(`${classprefix}lname_${index}`),

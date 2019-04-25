@@ -1,4 +1,4 @@
-export var data: object[] = [
+export let data: object[] = [
   {
     "First Name": "Mayank",
     "Middle Name": " ",
