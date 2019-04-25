@@ -13,7 +13,8 @@ export class User {
     lastname: string,
     email: string,
     phonenumber: number,
-    address: string
+    address: string,
+    role?: string | number
   ) {
     this["First Name"] = firstname;
     this["Middle Name"] = middlename;
