@@ -15,21 +15,22 @@ interface UserHtmlElements {
 }
 
 interface UserItem {
-  firstname: string;
-  middlename: string;
-  lastname: string;
-  email: string;
-  phonenumber: number;
-  address: string;
+  "First Name": string;
+  "Middle Name": string;
+  "Last Name": string;
+  Email: string;
+  "Phone Number": number;
+  Address: string;
 }
 
-type ListUser = [UserItem];
+// type ListUser = [UserItem];
 
 interface UserItems extends Array<UserItem> {}
 
 let loadData = (): void => {
   //setting up the basic view
-  let items: object[] = [...data];
+  // let items = Array as {} as UserItem
+  let items = <UserItems>[...data];
 
   let itemsToDisplay: string[] = makeLayout(items);
 
@@ -206,14 +207,14 @@ const save = (e: any): void => {
 
 const makeLayout = (items: object[]): string[] => {
   let itemsToDisplay: string[] = items.map((item: object, index: number) => {
-    let user = new User(
-      item["First Name"],
-      item["Middle Name"],
-      item["Last Name"],
-      item["Email"],
-      item["Phone Number"],
-      item["Address"]
-    );
+    let user = new User({
+      "First Name": item["First Name"],
+      "Middle Name": item["Middle Name"],
+      "Last Name": item["Last Name"],
+      Email: item["Email"],
+      "Phone Number": item["Phone Number"],
+      Address: item["Address"]
+    });
     return `<tr key=${index} id="row_${index}">
             <td id="fname_${index}">
             <div id="value_fname_${index}">
@@ -294,14 +295,14 @@ function addUser() {
   else if (!elements.number.value || elements.number.value.trim() === "")
     alert("Number is mandatory");
   else {
-    let user = new User(
-      elements.fname.value,
-      elements.mname.value,
-      elements.lname.value,
-      elements.email.value,
-      elements.number.value,
-      elements.address.value
-    );
+    let user = new User({
+      "First Name": elements.fname.value,
+      "Middle Name": elements.mname.value,
+      "Last Name": elements.lname.value,
+      Email: elements.email.value,
+      "Phone Number": elements.number.value,
+      Address: elements.address.value
+    });
     data.push(user);
     loadData();
   }
