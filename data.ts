@@ -1,26 +1,26 @@
 export let data: object[] = [
   {
-    "First Name": "Mayank",
-    "Middle Name": " ",
-    "Last Name": "Nauriyal",
-    Email: "test@email.com",
-    "Phone Number": "8888888888",
-    Address: "ABC street, XYZ place"
+    firstName: "Mayank",
+    middleName: " ",
+    lastName: "Nauriyal",
+    email: "test@email.com",
+    phoneNumber: "8888888888",
+    address: "ABC street, XYZ place"
   },
   {
-    "First Name": "Mickey",
-    "Middle Name": " ",
-    "Last Name": "Nauriyal",
-    Email: "test2@email.com",
-    "Phone Number": "8888888889",
-    Address: "Blah Blah Blah"
+    firstName: "Mickey",
+    middleName: " ",
+    lastName: "Nauriyal",
+    email: "test2@email.com",
+    phoneNumber: "8888888889",
+    address: "Blah Blah Blah"
   },
   {
-    "First Name": "Random",
-    "Middle Name": "Blah",
-    "Last Name": "Random",
-    Email: "test2@email.com",
-    "Phone Number": "8888888899",
-    Address: "Blah Blah Blah"
+    firstName: "Random",
+    middleName: "Blah",
+    lastName: "Random",
+    email: "test2@email.com",
+    phoneNumber: "8888888899",
+    address: "Blah Blah Blah"
   }
 ];

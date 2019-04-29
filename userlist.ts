@@ -63,12 +63,12 @@ export class UserList {
 
     if (noError) {
       let user = new User({
-        "First Name": elements.fname.value,
-        "Middle Name": elements.mname.value,
-        "Last Name": elements.lname.value,
-        Email: elements.email.value,
-        "Phone Number": elements.number.value,
-        Address: elements.address.value
+        firstName: elements.fname.value,
+        middleName: elements.mname.value,
+        lastName: elements.lname.value,
+        email: elements.email.value,
+        phoneNumber: elements.number.value,
+        address: elements.address.value
       });
       data.push(user);
       this.loadData();
@@ -193,12 +193,12 @@ export class UserList {
     resetaddress.innerHTML = address.value;
 
     //modify the data
-    data[index[0]]["First Name"] = fname.value;
-    data[index[0]]["Last Name"] = lname.value;
-    data[index[0]]["Middle Name"] = mname.value;
-    data[index[0]]["Email"] = email.value;
-    data[index[0]]["Phone Number"] = number.value;
-    data[index[0]]["Address"] = address.value;
+    data[index[0]]["firstName"] = fname.value;
+    data[index[0]]["lastName"] = lname.value;
+    data[index[0]]["middleName"] = mname.value;
+    data[index[0]]["email"] = email.value;
+    data[index[0]]["phoneNumber"] = number.value;
+    data[index[0]]["address"] = address.value;
 
     //finally getting the edit button back
     document.getElementById(
@@ -224,42 +224,42 @@ export class UserList {
   makeLayout = (items: object[]): string[] => {
     let itemsToDisplay: string[] = items.map((item: object, index: number) => {
       let user = new User({
-        "First Name": item["First Name"],
-        "Middle Name": item["Middle Name"],
-        "Last Name": item["Last Name"],
-        Email: item["Email"],
-        "Phone Number": item["Phone Number"],
-        Address: item["Address"]
+        firstName: item["firstName"],
+        middleName: item["middleName"],
+        lastName: item["lastName"],
+        email: item["Email"],
+        phoneNumber: item["phoneNumber"],
+        address: item["address"]
       });
       return `<tr key=${index} id="row_${index}">
                 <td id="fname_${index}">
                 <div id="value_fname_${index}">
-                ${user["First Name"]}
+                ${user["firstName"]}
                 </div>
                 </td>
                 <td id="mname_${index}">
                 <div id="value_mname_${index}">
-                ${user["Middle Name"]}
+                ${user["middleName"]}
                 </div>
                 </td>
                 <td id="lname_${index}">
                 <div id="value_lname_${index}">
-                ${user["Last Name"]}
+                ${user["lastName"]}
                 </div>
                 </td>
                 <td id="email_${index}">
                 <div id="value_email_${index}">
-                ${user["Email"]}
+                ${user["email"]}
                 </div>
                 </td>
                 <td id="number_${index}">
                 <div id="value_number_${index}">
-                ${user["Phone Number"]}
+                ${user["phoneNumber"]}
                 </div>
                 </td>
                 <td id="address_${index}">
                 <div id="value_address_${index}">
-                ${user["Address"]}
+                ${user["address"]}
                 </div>
                 </td>
                 <td id="edit_wrapper_${index}" ><button id="edit_${index}" class="btn btn-secondary")">edit</button></td>
