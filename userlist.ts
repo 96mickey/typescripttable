@@ -76,8 +76,8 @@ export class UserList {
     // }
   };
 
-  editRow = (e: any): void => {
-    let index: object = /\d+/.exec(e.path[0].id);
+  editRow = (e: MouseEvent): void => {
+    let index: object = /\d+/.exec(e.target["id"]);
     let elements: object = callElements(index[0], "");
 
     let editbtn = document.getElementById(`edit_wrapper_${index[0]}`);
@@ -105,7 +105,7 @@ export class UserList {
     });
 
     let editbtnlistener: HTMLElement = document.getElementById(
-      e.target.parentNode.id
+      e.target["parentNode"].id
     );
     editbtnlistener.removeEventListener("click", this.editRow);
 
@@ -121,8 +121,8 @@ export class UserList {
     cancelbtn.addEventListener("click", this.cancel);
   };
 
-  cancel = (e: any): void => {
-    let index: object = /\d+/.exec(e.path[0].id);
+  cancel = (e: MouseEvent): void => {
+    let index: object = /\d+/.exec(e.target["id"]);
     let cancelVal: object = callElements(index[0], "input_");
 
     //removing event listeners
@@ -153,9 +153,8 @@ export class UserList {
     editbtn.addEventListener("click", this.editRow);
   };
 
-  save = (e: any): void => {
-    console.log(e.type);
-    let index: object = /\d+/.exec(e.path[0].id);
+  save = (e: MouseEvent): void => {
+    let index: object = /\d+/.exec(e.target["id"]);
 
     // document.getElementById(e.path[0].id).removeEventListener("click", deleteRow);
     let elements: object = callElements(index[0], "input_");
@@ -209,10 +208,10 @@ export class UserList {
       .addEventListener("click", this.editRow);
   };
 
-  deleteRow = (e: any): void => {
-    let index: object = /\d+/.exec(e.path[0].id);
+  deleteRow = (e: MouseEvent): void => {
+    let index: object = /\d+/.exec(e.target["id"]);
     document
-      .getElementById(e.path[0].id)
+      .getElementById(e.target["id"])
       .removeEventListener("click", this.deleteRow);
     let row: HTMLElement = document.getElementById(`row_${index[0]}`);
     row.parentNode.removeChild(row);
