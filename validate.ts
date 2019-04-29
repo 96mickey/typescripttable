@@ -9,10 +9,16 @@
 // }
 
 export const validate = (e: any): boolean => {
-  if (e.target.type === "email") {
-    let email: HTMLElement = document.getElementById(e.target.id);
+  let element;
+  if (e.target) element = e.target;
+  else element = e;
+
+  if (element.type === "email") {
+    let email: HTMLElement = document.getElementById(element.id);
     if (
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test((<any>email).value)
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+        (<HTMLInputElement>email).value
+      )
     ) {
       email.classList.remove("error");
       return true;
@@ -20,18 +26,21 @@ export const validate = (e: any): boolean => {
       email.classList.add("error");
       return false;
     }
-  } else if (e.target.type === "text") {
-    let inputVal: HTMLElement = document.getElementById(e.target.id);
-    if (!(<any>inputVal).value || (<any>inputVal).value.trim() === "") {
+  } else if (element.type === "text") {
+    let inputVal: HTMLElement = document.getElementById(element.id);
+    if (
+      !(<HTMLInputElement>inputVal).value ||
+      (<HTMLInputElement>inputVal).value.trim() === ""
+    ) {
       inputVal.classList.add("error");
       return false;
     } else {
       inputVal.classList.remove("error");
       return true;
     }
-  } else if (e.target.type === "number") {
-    let number: HTMLElement = document.getElementById(e.target.id);
-    if (!(<any>number).value || isNaN((<any>number).value)) {
+  } else if (element.type === "number") {
+    let number: HTMLElement = document.getElementById(element.id);
+    if (!(<HTMLInputElement>number).value || isNaN((<any>number).value)) {
       number.classList.add("error");
       return false;
     } else {

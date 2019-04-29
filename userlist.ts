@@ -49,18 +49,19 @@ export class UserList {
   addUser = () => {
     let elements: any = callElements("new", "input_");
 
-    //validating for empty places
-    if (!elements.fname.value || elements.fname.value.trim() === "")
-      alert("First name is mandatory");
-    else if (!elements.lname.value || elements.lname.value.trim() === "")
-      alert("Last name is mandatory");
-    else if (!elements.email.value || elements.email.value.trim() === "")
-      alert("Email is mandatory");
-    else if (!elements.address.value || elements.address.value.trim() === "")
-      alert("Address is mandatory");
-    else if (!elements.number.value || elements.number.value.trim() === "")
-      alert("Number is mandatory");
-    else {
+    let iterableSampleData = Object.entries(elements);
+
+    let noError = false;
+
+    for (let element of iterableSampleData) {
+      noError = validate(element[1]);
+      if (!noError) {
+        alert(`${element[0]} is not valid.`);
+        break;
+      }
+    }
+
+    if (noError) {
       let user = new User({
         "First Name": elements.fname.value,
         "Middle Name": elements.mname.value,
@@ -72,6 +73,7 @@ export class UserList {
       data.push(user);
       this.loadData();
     }
+    // }
   };
 
   editRow = (e: any): void => {
