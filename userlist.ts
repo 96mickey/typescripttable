@@ -73,11 +73,11 @@ export class UserList {
       data.push(user);
       this.loadData();
     }
-    // }
   };
 
   editRow = (e: MouseEvent): void => {
-    let index: object = /\d+/.exec(e.target["id"]);
+    let target = e.target as HTMLButtonElement;
+    let index: object = /\d+/.exec(target.id);
     let elements: object = callElements(index[0], "");
 
     let editbtn = document.getElementById(`edit_wrapper_${index[0]}`);
@@ -87,7 +87,6 @@ export class UserList {
     //and adding event to validate the input fields
     let regex = /\_(.*?)\_/;
     Object.entries(elements).forEach(<T>(entry: T) => {
-      // console.log(/lname/gi.test(entry[1].children[0].id));
       let type: string;
       if (/email/gi.test(entry[1].id)) {
         type = "email";
@@ -122,7 +121,8 @@ export class UserList {
   };
 
   cancel = (e: MouseEvent): void => {
-    let index: object = /\d+/.exec(e.target["id"]);
+    let target = e.target as HTMLButtonElement;
+    let index: object = /\d+/.exec(target.id);
     let cancelVal: object = callElements(index[0], "input_");
 
     //removing event listeners
@@ -154,7 +154,8 @@ export class UserList {
   };
 
   save = (e: MouseEvent): void => {
-    let index: object = /\d+/.exec(e.target["id"]);
+    let target = e.target as HTMLButtonElement;
+    let index: object = /\d+/.exec(target.id);
 
     // document.getElementById(e.path[0].id).removeEventListener("click", deleteRow);
     let elements: object = callElements(index[0], "input_");
@@ -209,9 +210,10 @@ export class UserList {
   };
 
   deleteRow = (e: MouseEvent): void => {
-    let index: object = /\d+/.exec(e.target["id"]);
+    let target = e.target as HTMLButtonElement;
+    let index: object = /\d+/.exec(target.id);
     document
-      .getElementById(e.target["id"])
+      .getElementById(target.id)
       .removeEventListener("click", this.deleteRow);
     let row: HTMLElement = document.getElementById(`row_${index[0]}`);
     row.parentNode.removeChild(row);
