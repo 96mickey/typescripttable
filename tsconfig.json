@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "./typescripttable",
     "module": "commonjs",
     "target": "es6",
-    "sourceMap": true,
-    "outDir": "./typescripttable"
+    "experimentalDecorators": true,
+    "lib": ["es2017", "dom"]
   },
   "exclude": ["node_modules"]
 }
