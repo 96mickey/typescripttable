@@ -1,11 +1,11 @@
 export interface UserHtmlElements {
-  fname: HTMLInputElement;
-  mname: HTMLInputElement;
-  lname: HTMLInputElement;
-  address: HTMLInputElement;
-  number: HTMLInputElement;
-  email: HTMLInputElement;
-  role?: HTMLInputElement;
+  fname: HTMLElement;
+  mname: HTMLElement;
+  lname: HTMLElement;
+  address: HTMLElement;
+  number: HTMLElement;
+  email: HTMLElement;
+  role?: HTMLElement;
 }
 
 export interface UserItem {

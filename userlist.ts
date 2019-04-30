@@ -24,16 +24,15 @@ export class UserList {
     button.onclick = this.loadData;
 
     //adding event to add new user
-    //! serious issue- HTML button element is not working in this case
     let submitnewuserbtn: HTMLButtonElement = document.getElementById(
       "submitnewuser"
     ) as HTMLButtonElement;
     submitnewuserbtn.addEventListener("click", this.addUser);
 
     //adding event to validate user input
-    let elements: object = callElements("new", "input_");
+    let elements: UserHtmlElements = callElements("new", "input_");
 
-    Object.entries(elements).forEach((entry: Array<HTMLInputElement>) => {
+    Object.entries(elements).forEach(entry => {
       if (entry[1]) entry[1].addEventListener("input", onInput);
     });
 
@@ -79,8 +78,8 @@ export class UserList {
 
   editRow = (e: MouseEvent): void => {
     let target = e.target as HTMLButtonElement;
-    let index: object = /\d+/.exec(target.id);
-    let elements: object = callElements(index[0], "");
+    let index = /\d+/.exec(target.id);
+    let elements: UserHtmlElements = callElements(index[0], "");
 
     let editbtn = document.getElementById(`edit_wrapper_${index[0]}`);
 
@@ -135,8 +134,8 @@ export class UserList {
 
   cancel = (e: MouseEvent): void => {
     let target = e.target as HTMLButtonElement;
-    let index: object = /\d+/.exec(target.id);
-    let cancelVal: object = callElements(index[0], "input_");
+    let index = /\d+/.exec(target.id);
+    let cancelVal: UserHtmlElements = callElements(index[0], "input_");
 
     //removing event listeners
     Object.entries(cancelVal).forEach((entry: Array<HTMLInputElement>) => {
@@ -145,7 +144,7 @@ export class UserList {
     });
 
     //removing hide class (to see the actualindex content)
-    let removeHideClass: object = callElements(index[0], "value_");
+    let removeHideClass: UserHtmlElements = callElements(index[0], "value_");
     Object.entries(removeHideClass).forEach(<T>(entry: T) => {
       entry[1].classList.remove("hide");
     });
@@ -168,10 +167,10 @@ export class UserList {
 
   save = (e: MouseEvent): void => {
     let target = e.target as HTMLButtonElement;
-    let index: object = /\d+/.exec(target.id);
+    let index = /\d+/.exec(target.id);
 
     // document.getElementById(e.path[0].id).removeEventListener("click", deleteRow);
-    let elements: object = callElements(index[0], "input_");
+    let elements: UserHtmlElements = callElements(index[0], "input_");
     let { fname, mname, lname, email, number, address, role } = <
       UserHtmlElements
     >elements;
@@ -183,7 +182,7 @@ export class UserList {
     });
 
     //getting back the hidden data
-    let removeHideClass: object = callElements(index[0], "value_");
+    let removeHideClass: UserHtmlElements = callElements(index[0], "value_");
 
     Object.entries(removeHideClass).forEach(<T>(entry: T) => {
       entry[1].classList.remove("hide");
@@ -199,22 +198,25 @@ export class UserList {
       role: resetrole
     } = removeHideClass as UserHtmlElements;
     //replacing the value with new values on save
-    resetfname.innerHTML = fname.value;
-    resetlname.innerHTML = lname.value;
-    resetmname.innerHTML = mname.value;
-    resetemail.innerHTML = email.value;
-    resetnumber.innerHTML = number.value;
-    resetaddress.innerHTML = address.value;
-    resetrole.innerHTML = Number(role.value) === 1 ? "Admin" : "User";
+    resetfname.innerHTML = (fname as HTMLInputElement).value;
+    resetlname.innerHTML = (lname as HTMLInputElement).value;
+    resetmname.innerHTML = (mname as HTMLInputElement).value;
+    resetemail.innerHTML = (email as HTMLInputElement).value;
+    resetnumber.innerHTML = (number as HTMLInputElement).value;
+    resetaddress.innerHTML = (address as HTMLInputElement).value;
+    resetrole.innerHTML =
+      Number((role as HTMLInputElement).value) === 1 ? "Admin" : "User";
 
     //modify the data
-    this.users[index[0]].firstName = fname.value;
-    this.users[index[0]].lastName = lname.value;
-    this.users[index[0]].middleName = mname.value;
-    this.users[index[0]].email = email.value;
-    this.users[index[0]].phoneNumber = Number(number.value);
-    this.users[index[0]].address = address.value;
-    this.users[index[0]].role = Number(role.value);
+    this.users[index[0]].firstName = (fname as HTMLInputElement).value;
+    this.users[index[0]].lastName = (lname as HTMLInputElement).value;
+    this.users[index[0]].middleName = (mname as HTMLInputElement).value;
+    this.users[index[0]].email = (email as HTMLInputElement).value;
+    this.users[index[0]].phoneNumber = Number(
+      (number as HTMLInputElement).value
+    );
+    this.users[index[0]].address = (address as HTMLInputElement).value;
+    this.users[index[0]].role = Number((role as HTMLInputElement).value);
 
     //finally getting the edit button back
     document.getElementById(
@@ -227,7 +229,7 @@ export class UserList {
 
   deleteRow = (e: MouseEvent): void => {
     let target = e.target as HTMLButtonElement;
-    let index: object = /\d+/.exec(target.id);
+    let index = /\d+/.exec(target.id);
     document
       .getElementById(target.id)
       .removeEventListener("click", this.deleteRow);
@@ -237,15 +239,12 @@ export class UserList {
     this.loadData();
   };
 
-  makeLayout = (items: object[]): string[] => {
-    let itemsToDisplay: string[] = items.map((item: object, index: number) => {
-      let itemObj = item as UserItem;
-      // let editlink = `http://localhost:8080/edit.html?fname=${
-      //   itemObj.firstName
-      // }&mname=${itemObj.middleName}&lname=${itemObj.lastName}&number=${
-      //   itemObj.phoneNumber
-      // }&email=${itemObj.email}&address=${itemObj.address}`;
-      return `<tr key=${index} id="row_${index}">
+  makeLayout = (items: UserItem[]): string[] => {
+    let itemsToDisplay: string[] = items.map(
+      (item: UserItem, index: number) => {
+        let itemObj = item as UserItem;
+
+        return `<tr key=${index} id="row_${index}">
                 <td id="fname_${index}">
                 <div id="value_fname_${index}">
                 ${itemObj.firstName}
@@ -288,7 +287,8 @@ export class UserList {
                 </td>
                 <td ><button id="delete_${index}" class="btn btn-danger">delete</button></td>
                 </tr>`;
-    });
+      }
+    );
 
     let inputelement: string = `<tr>
       <td><input type="text" id="input_fname_new" placeholder="First name" ></td>
