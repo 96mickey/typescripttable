@@ -10,8 +10,8 @@ import { parseURLParams } from "./edit";
 export const callElements = (
   index: number | string,
   classprefix: string
-): object => {
-  let obj = {
+): UserHtmlElements => {
+  return {
     fname: document.getElementById(`${classprefix}fname_${index}`),
     lname: document.getElementById(`${classprefix}lname_${index}`),
     mname: document.getElementById(`${classprefix}mname_${index}`),
@@ -19,9 +19,7 @@ export const callElements = (
     address: document.getElementById(`${classprefix}address_${index}`),
     number: document.getElementById(`${classprefix}number_${index}`),
     role: document.getElementById(`${classprefix}role_${index}`)
-  };
-
-  return obj as UserHtmlElements;
+  } as UserHtmlElements;
 };
 
 export function init() {
