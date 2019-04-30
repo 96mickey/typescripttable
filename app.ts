@@ -3,8 +3,6 @@ import { User } from "./user";
 import { data } from "./data";
 import { UserItem, UserHtmlElements } from "./types";
 
-// console.log(parseURLParams(window.location.href));
-
 //general way for selecting elements to iterate over
 export const callElements = (
   index: number | string,
