@@ -8,11 +8,11 @@
 
 // }
 
-export const validate = (e: any): boolean => {
-  let element;
-  if (e.target) element = e.target;
-  else element = e;
+export const onInput = (e: TextEvent) => {
+  validate(e.target as HTMLInputElement);
+};
 
+export const validate = (element: HTMLInputElement): boolean => {
   if (element.type === "email") {
     let email: HTMLElement = document.getElementById(element.id);
     if (

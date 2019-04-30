@@ -1,8 +1,7 @@
 import { UserItem, UserHtmlElements } from "./types";
-import { data } from "./data";
 import { User } from "./user";
 import { callElements } from "./app";
-import { validate } from "./validate";
+import { validate, onInput } from "./validate";
 
 let button: HTMLElement = document.getElementById("changeColor");
 let table: HTMLElement = document.getElementById("tablebody");
@@ -15,7 +14,7 @@ export class UserList {
   }
 
   loadData = () => {
-    let items: UserItem[] = [...this.users] as UserItem[];
+    let items: UserItem[] = [...this.users];
 
     let itemsToDisplay: string[] = this.makeLayout(items);
 
@@ -25,16 +24,17 @@ export class UserList {
     button.onclick = this.loadData;
 
     //adding event to add new user
-    let submitnewuserbtn: HTMLElement = document.getElementById(
+    //! serious issue- HTML button element is not working in this case
+    let submitnewuserbtn: HTMLButtonElement = document.getElementById(
       "submitnewuser"
-    );
+    ) as HTMLButtonElement;
     submitnewuserbtn.addEventListener("click", this.addUser);
 
     //adding event to validate user input
     let elements: object = callElements("new", "input_");
 
-    Object.entries(elements).forEach(<T>(entry: T) => {
-      if (entry[1]) entry[1].addEventListener("input", validate);
+    Object.entries(elements).forEach((entry: Array<HTMLInputElement>) => {
+      if (entry[1]) entry[1].addEventListener("input", onInput);
     });
 
     //addeventlisteners as ts do not handle onclick
@@ -55,7 +55,7 @@ export class UserList {
 
     for (let element of iterableSampleData) {
       // console.log(element[1]);
-      noError = validate(element[1]);
+      noError = validate(element[1] as HTMLInputElement);
       if (!noError) {
         alert(`${element[0]} is not valid.`);
         break;
@@ -105,14 +105,14 @@ export class UserList {
            <option value=1>Admin</option>
            
         </select>`;
-        entry[1].children[1].addEventListener("input", validate);
+        entry[1].children[1].addEventListener("input", onInput);
       } else {
         entry[1].innerHTML = `${
           entry[1].innerHTML
         } <input type=${type} value="${entry[1].children[0].innerText.trim()}" id="input_${
           strforclass[1]
         }_${index[0]}"></input>`;
-        entry[1].children[1].addEventListener("input", validate);
+        entry[1].children[1].addEventListener("input", onInput);
       }
     });
 
@@ -139,8 +139,8 @@ export class UserList {
     let cancelVal: object = callElements(index[0], "input_");
 
     //removing event listeners
-    Object.entries(cancelVal).forEach(<T>(entry: T) => {
-      entry[1].removeEventListener("input", validate);
+    Object.entries(cancelVal).forEach((entry: Array<HTMLInputElement>) => {
+      entry[1].removeEventListener("input", onInput);
       entry[1].parentNode.removeChild(entry[1]);
     });
 
@@ -177,8 +177,8 @@ export class UserList {
     >elements;
 
     //removing input fields and event listeners
-    Object.entries(elements).forEach(<T>(entry: T) => {
-      entry[1].removeEventListener("input", validate);
+    Object.entries(elements).forEach((entry: Array<HTMLInputElement>) => {
+      entry[1].removeEventListener("input", onInput);
       entry[1].parentNode.removeChild(entry[1]);
     });
 
@@ -240,6 +240,11 @@ export class UserList {
   makeLayout = (items: object[]): string[] => {
     let itemsToDisplay: string[] = items.map((item: object, index: number) => {
       let itemObj = item as UserItem;
+      // let editlink = `http://localhost:8080/edit.html?fname=${
+      //   itemObj.firstName
+      // }&mname=${itemObj.middleName}&lname=${itemObj.lastName}&number=${
+      //   itemObj.phoneNumber
+      // }&email=${itemObj.email}&address=${itemObj.address}`;
       return `<tr key=${index} id="row_${index}">
                 <td id="fname_${index}">
                 <div id="value_fname_${index}">
@@ -276,7 +281,11 @@ export class UserList {
                 ${Number(itemObj.role) === 0 ? "User" : "Admin"}
                 </div>
                 </td>
-                <td id="edit_wrapper_${index}" ><button id="edit_${index}" class="btn btn-secondary")">edit</button></td>
+                <td id="edit_wrapper_${index}" >
+                
+                  <button id="edit_${index}" class="btn btn-secondary")">edit</button>
+                
+                </td>
                 <td ><button id="delete_${index}" class="btn btn-danger">delete</button></td>
                 </tr>`;
     });
