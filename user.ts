@@ -9,7 +9,7 @@ export class User {
   email: string;
   phoneNumber: number;
   address: string;
-  _role?: Role;
+  private _role?: Role = Role.user;
 
   constructor(init?: Partial<User>) {
     Object.assign(this, init);

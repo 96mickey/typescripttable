@@ -8,14 +8,14 @@ let button: HTMLElement = document.getElementById("changeColor");
 let table: HTMLElement = document.getElementById("tablebody");
 
 export class UserList {
-  "users": UserItem[];
+  "users": UserItem[] = [];
 
-  constructor(init?: Partial<UserList>) {
-    Object.assign(this, init);
+  constructor(init?: UserItem[]) {
+    Object.assign(this.users, init);
   }
 
   loadData = () => {
-    let items: UserItem[] = [...data] as UserItem[];
+    let items: UserItem[] = [...this.users] as UserItem[];
 
     let itemsToDisplay: string[] = this.makeLayout(items);
 
@@ -34,7 +34,7 @@ export class UserList {
     let elements: object = callElements("new", "input_");
 
     Object.entries(elements).forEach(<T>(entry: T) => {
-      entry[1].addEventListener("input", validate);
+      if (entry[1]) entry[1].addEventListener("input", validate);
     });
 
     //addeventlisteners as ts do not handle onclick
@@ -54,6 +54,7 @@ export class UserList {
     let noError = false;
 
     for (let element of iterableSampleData) {
+      // console.log(element[1]);
       noError = validate(element[1]);
       if (!noError) {
         alert(`${element[0]} is not valid.`);
@@ -70,7 +71,8 @@ export class UserList {
         phoneNumber: elements.number.value,
         address: elements.address.value
       });
-      data.push(user);
+      user.role = elements.role.value;
+      this.users.push(user);
       this.loadData();
     }
   };
@@ -95,12 +97,23 @@ export class UserList {
 
       entry[1].children[0].classList.add("hide");
       let strforclass = regex.exec(entry[1].children[0].id);
-      entry[1].innerHTML = `${
-        entry[1].innerHTML
-      } <input type=${type} value="${entry[1].children[0].innerText.trim()}" id="input_${
-        strforclass[1]
-      }_${index[0]}"></input>`;
-      entry[1].children[1].addEventListener("input", validate);
+
+      if (/role/gi.test(entry[1].id)) {
+        entry[1].innerHTML = `${entry[1].innerHTML} 
+        <select id="input_${strforclass[1]}_${index[0]}">
+        <option value=0>User</option>
+           <option value=1>Admin</option>
+           
+        </select>`;
+        entry[1].children[1].addEventListener("input", validate);
+      } else {
+        entry[1].innerHTML = `${
+          entry[1].innerHTML
+        } <input type=${type} value="${entry[1].children[0].innerText.trim()}" id="input_${
+          strforclass[1]
+        }_${index[0]}"></input>`;
+        entry[1].children[1].addEventListener("input", validate);
+      }
     });
 
     let editbtnlistener: HTMLElement = document.getElementById(
@@ -159,9 +172,9 @@ export class UserList {
 
     // document.getElementById(e.path[0].id).removeEventListener("click", deleteRow);
     let elements: object = callElements(index[0], "input_");
-    let { fname, mname, lname, email, number, address } = <UserHtmlElements>(
-      elements
-    );
+    let { fname, mname, lname, email, number, address, role } = <
+      UserHtmlElements
+    >elements;
 
     //removing input fields and event listeners
     Object.entries(elements).forEach(<T>(entry: T) => {
@@ -182,7 +195,8 @@ export class UserList {
       mname: resetmname,
       email: resetemail,
       number: resetnumber,
-      address: resetaddress
+      address: resetaddress,
+      role: resetrole
     } = <UserHtmlElements>removeHideClass;
     //replacing the value with new values on save
     resetfname.innerHTML = fname.value;
@@ -191,14 +205,16 @@ export class UserList {
     resetemail.innerHTML = email.value;
     resetnumber.innerHTML = number.value;
     resetaddress.innerHTML = address.value;
+    resetrole.innerHTML = Number(role.value) === 1 ? "Admin" : "User";
 
     //modify the data
-    data[index[0]]["firstName"] = fname.value;
-    data[index[0]]["lastName"] = lname.value;
-    data[index[0]]["middleName"] = mname.value;
-    data[index[0]]["email"] = email.value;
-    data[index[0]]["phoneNumber"] = number.value;
-    data[index[0]]["address"] = address.value;
+    this.users[index[0]].firstName = fname.value;
+    this.users[index[0]].lastName = lname.value;
+    this.users[index[0]].middleName = mname.value;
+    this.users[index[0]].email = email.value;
+    this.users[index[0]].phoneNumber = Number(number.value);
+    this.users[index[0]].address = address.value;
+    this.users[index[0]].role = Number(role.value);
 
     //finally getting the edit button back
     document.getElementById(
@@ -217,49 +233,47 @@ export class UserList {
       .removeEventListener("click", this.deleteRow);
     let row: HTMLElement = document.getElementById(`row_${index[0]}`);
     row.parentNode.removeChild(row);
-    data.splice(Number(index[0]), 1);
+    this.users.splice(Number(index[0]), 1);
     this.loadData();
   };
 
   makeLayout = (items: object[]): string[] => {
     let itemsToDisplay: string[] = items.map((item: object, index: number) => {
-      let user = new User({
-        firstName: item["firstName"],
-        middleName: item["middleName"],
-        lastName: item["lastName"],
-        email: item["Email"],
-        phoneNumber: item["phoneNumber"],
-        address: item["address"]
-      });
+      let itemObj = item as UserItem;
       return `<tr key=${index} id="row_${index}">
                 <td id="fname_${index}">
                 <div id="value_fname_${index}">
-                ${user["firstName"]}
+                ${itemObj.firstName}
                 </div>
                 </td>
                 <td id="mname_${index}">
                 <div id="value_mname_${index}">
-                ${user["middleName"]}
+                ${itemObj.middleName}
                 </div>
                 </td>
                 <td id="lname_${index}">
                 <div id="value_lname_${index}">
-                ${user["lastName"]}
+                ${itemObj.lastName}
                 </div>
                 </td>
                 <td id="email_${index}">
                 <div id="value_email_${index}">
-                ${user["email"]}
+                ${itemObj.email}
                 </div>
                 </td>
                 <td id="number_${index}">
                 <div id="value_number_${index}">
-                ${user["phoneNumber"]}
+                ${itemObj.phoneNumber}
                 </div>
                 </td>
                 <td id="address_${index}">
                 <div id="value_address_${index}">
-                ${user["address"]}
+                ${itemObj.address}
+                </div>
+                </td>
+                <td id="role_${index}">
+                <div id="value_role_${index}">
+                ${Number(itemObj.role) === 0 ? "User" : "Admin"}
                 </div>
                 </td>
                 <td id="edit_wrapper_${index}" ><button id="edit_${index}" class="btn btn-secondary")">edit</button></td>
@@ -274,6 +288,11 @@ export class UserList {
       <td><input type="email" id="input_email_new" placeholder="Email" ></td>
       <td><input type="number" id="input_number_new" placeholder="Phone number" ></td>
       <td><input type="text" id="input_address_new" placeholder="Address" ></td>
+      <td><select id="input_role_new">
+        <option value=0>User</option>
+        <option value=1>Admin</option>
+        </select>
+      </td>
       <td colspan=2><button class="btn btn-primary btn-block" type="button" id="submitnewuser" >Add</button></td>
       </tr>`;
 

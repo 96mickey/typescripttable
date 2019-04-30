@@ -5,13 +5,15 @@ export interface UserHtmlElements {
   address: HTMLInputElement;
   number: HTMLInputElement;
   email: HTMLInputElement;
+  role?: HTMLInputElement;
 }
 
 export interface UserItem {
-  "First Name": string;
-  "Middle Name": string;
-  "Last Name": string;
-  Email: string;
-  "Phone Number": number;
-  Address: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: number;
+  address: string;
+  role?: number;
 }

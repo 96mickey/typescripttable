@@ -48,4 +48,5 @@ export const validate = (e: any): boolean => {
       return true;
     }
   }
+  return true;
 };
