@@ -3,9 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "dependencies": {
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.4.4",
+    "webpack-cli": "^3.3.1",
+    "webpack-dev-server": "^3.3.1",
+    "webpack": "^4.30.0"
   },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --mode development"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC"
 }
