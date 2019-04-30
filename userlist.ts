@@ -197,7 +197,7 @@ export class UserList {
       number: resetnumber,
       address: resetaddress,
       role: resetrole
-    } = <UserHtmlElements>removeHideClass;
+    } = removeHideClass as UserHtmlElements;
     //replacing the value with new values on save
     resetfname.innerHTML = fname.value;
     resetlname.innerHTML = lname.value;

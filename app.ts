@@ -21,7 +21,7 @@ export const callElements = (
     role: document.getElementById(`${classprefix}role_${index}`)
   };
 
-  return obj;
+  return obj as UserHtmlElements;
 };
 
 export function init() {
