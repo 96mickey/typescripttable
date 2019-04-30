@@ -36,7 +36,6 @@ export function init() {
   let list = new UserList(arr);
 
   let button: HTMLElement = document.getElementById("changeColor");
-  let table: HTMLElement = document.getElementById("tablebody");
 
   // loading data from userlist instance
   let loadData = list.loadData;
