@@ -40,7 +40,10 @@ export const validate = (element: HTMLInputElement): boolean => {
     }
   } else if (element.type === "number") {
     let number: HTMLElement = document.getElementById(element.id);
-    if (!(<HTMLInputElement>number).value || isNaN((<any>number).value)) {
+    if (
+      !(<HTMLInputElement>number).value ||
+      isNaN(Number((number as HTMLInputElement).value))
+    ) {
       number.classList.add("error");
       return false;
     } else {

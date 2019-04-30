@@ -46,7 +46,7 @@ export class UserList {
   };
 
   addUser = () => {
-    let elements: any = callElements("new", "input_");
+    let elements: UserHtmlElements = callElements("new", "input_");
 
     let iterableSampleData = Object.entries(elements);
 
@@ -63,14 +63,14 @@ export class UserList {
 
     if (noError) {
       let user = new User({
-        firstName: elements.fname.value,
-        middleName: elements.mname.value,
-        lastName: elements.lname.value,
-        email: elements.email.value,
-        phoneNumber: elements.number.value,
-        address: elements.address.value
+        firstName: (elements.fname as HTMLInputElement).value,
+        middleName: (elements.mname as HTMLInputElement).value,
+        lastName: (elements.lname as HTMLInputElement).value,
+        email: (elements.email as HTMLInputElement).value,
+        phoneNumber: Number((elements.number as HTMLInputElement).value),
+        address: (elements.address as HTMLInputElement).value
       });
-      user.role = elements.role.value;
+      user.role = Number((elements.role as HTMLInputElement).value);
       this.users.push(user);
       this.loadData();
     }
