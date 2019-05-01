@@ -21,5 +21,5 @@ export function parseURLParams(url: string): DataTransfer {
     if (!parms.hasOwnProperty(n)) parms[n] = [];
     parms[n].push(nv.length === 2 ? v : null);
   }
-  return parms;
+  return parms as DataTransfer;
 }
