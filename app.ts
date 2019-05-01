@@ -2,8 +2,7 @@ import { UserList } from "./userlist";
 import { User } from "./user";
 import { data } from "./data";
 import { UserItem, UserHtmlElements } from "./types";
-
-// console.log(parseURLParams(window.location.href));
+import { parseURLParams } from "./edit";
 
 //general way for selecting elements to iterate over
 export const callElements = (
@@ -38,11 +37,21 @@ export function init() {
   let list = new UserList(arr);
 
   let button: HTMLElement = document.getElementById("changeColor");
-  let table: HTMLElement = document.getElementById("tablebody");
 
   // loading data from userlist instance
   let loadData = list.loadData;
   button.onclick = loadData;
 }
 
-init();
+let urlParams = parseURLParams(window.location.href);
+
+if (!urlParams) init();
+else {
+  let inputelem = callElements("", "input");
+  (inputelem.fname as HTMLInputElement).value = urlParams.fname[0];
+  (inputelem.mname as HTMLInputElement).value = urlParams.mname[0];
+  (inputelem.lname as HTMLInputElement).value = urlParams.lname[0];
+  (inputelem.email as HTMLInputElement).value = urlParams.email[0];
+  (inputelem.number as HTMLInputElement).value = urlParams.number[0];
+  (inputelem.address as HTMLInputElement).value = urlParams.address[0];
+}
