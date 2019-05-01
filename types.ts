@@ -17,3 +17,12 @@ export interface UserItem {
   address: string;
   role?: number;
 }
+
+export interface DataTransfer {
+  fname: string[];
+  mname: string[];
+  lname: string[];
+  email: string[];
+  number: string[];
+  address: string[];
+}

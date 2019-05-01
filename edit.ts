@@ -1,4 +1,6 @@
-export function parseURLParams(url: string): object {
+import { DataTransfer } from "./types";
+
+export function parseURLParams(url: string): DataTransfer {
   var queryStart = url.indexOf("?") + 1,
     queryEnd = url.indexOf("#") + 1 || url.length + 1,
     query = url.slice(queryStart, queryEnd - 1),

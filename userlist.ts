@@ -7,7 +7,7 @@ let button: HTMLElement = document.getElementById("changeColor");
 let table: HTMLElement = document.getElementById("tablebody");
 
 export class UserList {
-  "users": UserItem[] = [];
+  users: UserItem[] = [];
 
   constructor(init?: UserItem[]) {
     Object.assign(this.users, init);
@@ -76,6 +76,7 @@ export class UserList {
   };
 
   deleteRow = (e: MouseEvent): void => {
+    console.log("Delete row event ==> ", e.target);
     let target = e.target as HTMLButtonElement;
     let index = /\d+/.exec(target.id);
     document
